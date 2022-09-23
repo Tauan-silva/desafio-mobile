@@ -6,7 +6,7 @@ import com.tauan.desafiostone.R
 import com.tauan.desafiostone.databinding.ItemCardLayoutBinding
 import com.tauan.desafiostone.model.Item
 
-class ItemViewHolder(itemView: ItemCardLayoutBinding, val adapterClick: AdapterClick) : RecyclerView.ViewHolder(itemView.root) {
+class ItemViewHolder(itemView: ItemCardLayoutBinding, private val adapterClick: AdapterClick) : RecyclerView.ViewHolder(itemView.root) {
     private val binding = itemView
 
     fun bind(item: Item) {
