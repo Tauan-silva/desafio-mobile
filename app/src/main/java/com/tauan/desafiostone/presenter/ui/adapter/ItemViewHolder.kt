@@ -1,5 +1,6 @@
-package com.tauan.desafiostone.ui.adapter
+package com.tauan.desafiostone.presenter.ui.adapter
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.tauan.desafiostone.R
@@ -10,6 +11,7 @@ class ItemViewHolder(itemView: ItemCardLayoutBinding, private val adapterClick: 
     private val binding = itemView
 
     fun bind(item: Item) {
+
         with(binding) {
             Picasso.get()
                 .load(item.thumbnailHd)
@@ -19,7 +21,23 @@ class ItemViewHolder(itemView: ItemCardLayoutBinding, private val adapterClick: 
             itemName.text = item.title
             itemPrice.text = "G ${item.price}"
             seller.text = item.seller
-            btnAdd.setOnClickListener { adapterClick.onClick(item) }
+
+            btnAdd.setOnClickListener {
+                adapterClick.add(item)
+                labelCount.text = item.quantity.toString()
+                btnAdd.visibility = View.GONE
+                elegantNumber.visibility = View.VISIBLE
+            }
+
+            btnAddMore.setOnClickListener {
+                adapterClick.add(item)
+                labelCount.text = item.quantity.toString()
+            }
+
+            btnRemove.setOnClickListener {
+                adapterClick.remove(item)
+                labelCount.text = item.quantity.toString()
+            }
         }
 
     }

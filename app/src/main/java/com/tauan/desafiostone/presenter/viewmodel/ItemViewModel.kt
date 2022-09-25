@@ -1,10 +1,10 @@
-package com.tauan.desafiostone.viewmodel
+package com.tauan.desafiostone.presenter.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tauan.desafiostone.model.Item
-import com.tauan.desafiostone.repository.ItemRepository
+import com.tauan.desafiostone.data.repository.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,9 +1,9 @@
-package com.tauan.desafiostone.repository
+package com.tauan.desafiostone.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.tauan.desafiostone.model.Item
-import com.tauan.desafiostone.network.ApiService
+import com.tauan.desafiostone.data.network.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

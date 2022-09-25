@@ -1,4 +1,4 @@
-package com.tauan.desafiostone.network
+package com.tauan.desafiostone.data.network
 
 import com.tauan.desafiostone.model.Item
 import retrofit2.Call

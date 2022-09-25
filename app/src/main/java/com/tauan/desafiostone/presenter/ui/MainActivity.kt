@@ -1,4 +1,4 @@
-package com.tauan.desafiostone.ui
+package com.tauan.desafiostone.presenter.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,12 +6,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.tauan.desafiostone.databinding.ActivityMainBinding
 import com.tauan.desafiostone.model.Item
-import com.tauan.desafiostone.ui.adapter.AdapterClick
-import com.tauan.desafiostone.ui.adapter.ItemAdapter
-import com.tauan.desafiostone.viewmodel.ItemViewModel
+import com.tauan.desafiostone.presenter.ui.adapter.AdapterClick
+import com.tauan.desafiostone.presenter.ui.adapter.ItemAdapter
+import com.tauan.desafiostone.presenter.viewmodel.CartViewModel
+import com.tauan.desafiostone.presenter.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), AdapterClick {
     private lateinit var adapterList: ItemAdapter
     private lateinit var binding: ActivityMainBinding
     private val viewModel: ItemViewModel by viewModels()
+    private val cartViewModel: CartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity(), AdapterClick {
 
     }
 
-    private fun getItemList(){
+    private fun getItemList() {
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.getItems()
             withContext(Dispatchers.Main) {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity(), AdapterClick {
             }
         }
     }
+
     private fun setRecyclerView() {
         with(binding.recycler) {
             val layoutManager = GridLayoutManager(this@MainActivity, GridLayoutManager.VERTICAL)
@@ -59,7 +61,26 @@ class MainActivity : AppCompatActivity(), AdapterClick {
         }
     }
 
-    override fun onClick(item: Item) {
-        Snackbar.make(binding.root, item.title, Snackbar.LENGTH_LONG).show()
+    override fun add(item: Item) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val isAdded = cartViewModel.addResponseLiveData.value
+            item.quantity++
+            if (!isAdded!!) {
+                cartViewModel.addItemToCart(item)
+            } else {
+                cartViewModel.updateItemToCart(item)
+            }
+        }
+    }
+
+    override fun remove(item: Item) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (item.quantity > 0) {
+                item.quantity--
+                cartViewModel.updateItemToCart(item)
+            } else {
+                cartViewModel.removeItemToCart(item)
+            }
+        }
     }
 }

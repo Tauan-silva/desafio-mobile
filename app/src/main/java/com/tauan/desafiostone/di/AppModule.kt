@@ -1,12 +1,11 @@
 package com.tauan.desafiostone.di
 
-import androidx.room.Room
+import android.app.Application
 import com.google.gson.GsonBuilder
-import com.tauan.desafiostone.BaseApplication
-import com.tauan.desafiostone.database.AppDatabase
-import com.tauan.desafiostone.database.dao.CartDao
-import com.tauan.desafiostone.database.dao.TransactionDao
-import com.tauan.desafiostone.network.ApiService
+import com.tauan.desafiostone.data.database.AppDatabase
+import com.tauan.desafiostone.data.database.dao.CartDao
+import com.tauan.desafiostone.data.database.dao.TransactionDao
+import com.tauan.desafiostone.data.network.ApiService
 import com.tauan.desafiostone.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -23,11 +22,6 @@ import java.util.concurrent.TimeUnit
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
-    @Provides
-    fun provideApplication(): BaseApplication {
-        return BaseApplication()
-    }
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
@@ -60,11 +54,8 @@ class AppModule {
     }
 
     @Provides
-    fun provideDatabaseInstance(application: BaseApplication): AppDatabase {
-        return Room.databaseBuilder(
-            application,
-            AppDatabase::class.java, "database-application"
-        ).build()
+    fun provideDatabaseInstance(application: Application): AppDatabase {
+        return AppDatabase.getInstance(application)!!
     }
 
     @Provides

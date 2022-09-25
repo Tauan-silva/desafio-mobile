@@ -1,4 +1,4 @@
-package com.tauan.desafiostone.ui.adapter
+package com.tauan.desafiostone.presenter.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
