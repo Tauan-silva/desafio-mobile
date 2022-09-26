@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), AdapterClick {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapterList = ItemAdapter(this)
+        adapterList = ItemAdapter(this,this, cartViewModel)
         getItemList()
 
     }
@@ -75,10 +75,11 @@ class MainActivity : AppCompatActivity(), AdapterClick {
 
     override fun remove(item: Item) {
         lifecycleScope.launch(Dispatchers.IO) {
-            if (item.quantity > 0) {
+            if (item.quantity > 1) {
                 item.quantity--
                 cartViewModel.updateItemToCart(item)
             } else {
+                item.quantity = 0
                 cartViewModel.removeItemToCart(item)
             }
         }

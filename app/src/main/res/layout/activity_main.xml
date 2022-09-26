@@ -22,6 +22,20 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         />
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnCart"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/purple_200"
+        app:iconTint="@color/white"
+        android:text="0"
+        android:textAlignment="textEnd"
+        app:icon="@drawable/ic_baseline_shopping_cart_24"/>
+
     <ProgressBar
         android:id="@+id/pgbar"
         android:layout_width="wrap_content"

@@ -1,13 +1,17 @@
 package com.tauan.desafiostone.presenter.ui.adapter
 
+import android.app.Application
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tauan.desafiostone.databinding.ItemCardLayoutBinding
 import com.tauan.desafiostone.model.Item
+import com.tauan.desafiostone.presenter.viewmodel.CartViewModel
 
-class ItemAdapter(private val adapterClick: AdapterClick) : RecyclerView.Adapter<ItemViewHolder>() {
+class ItemAdapter(private val lifecycleOwner: LifecycleOwner, private val adapterClick: AdapterClick, private val viewModel: CartViewModel) : RecyclerView.Adapter<ItemViewHolder>() {
 
     var items = emptyList<Item>()
         set(value) {
@@ -21,11 +25,12 @@ class ItemAdapter(private val adapterClick: AdapterClick) : RecyclerView.Adapter
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(
-            ItemCardLayoutBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            ), adapterClick
+        val binding  = ItemCardLayoutBinding.inflate(
+        LayoutInflater.from(parent.context), parent, false
         )
+
+        binding.lifecycleOwner = lifecycleOwner
+        return ItemViewHolder(binding, viewModel, adapterClick)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {

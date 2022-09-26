@@ -1,5 +1,6 @@
 package com.tauan.desafiostone.presenter.viewmodel
 
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,23 +17,28 @@ class CartViewModel @Inject constructor(
     val addResponseLiveData = MutableLiveData(false)
     val updateResponseLiveData = MutableLiveData(false)
     val removeResponseLiveData = MutableLiveData(false)
+    val itemQuantityLiveData =  MutableLiveData(0)
 
     fun addItemToCart(item: Item) {
         viewModelScope.launch {
             val response = repository.addToCart(item)
+            itemQuantityLiveData.value = item.quantity
             addResponseLiveData.postValue(response)
         }
     }
+
     fun updateItemToCart(item: Item) {
         viewModelScope.launch {
-            val response = repository.addToCart(item)
+            val response = repository.updateToCart(item)
+            itemQuantityLiveData.value = item.quantity
             updateResponseLiveData.postValue(response)
         }
     }
 
     fun removeItemToCart(item: Item) {
         viewModelScope.launch {
-            val response = repository.addToCart(item)
+            val response = repository.removeToCart(item)
+            itemQuantityLiveData.value = 0
             removeResponseLiveData.postValue(response)
         }
     }
