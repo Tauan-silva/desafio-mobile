@@ -6,12 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.tauan.desafiostone.data.database.dao.CartDao
 import com.tauan.desafiostone.data.database.dao.TransactionDao
-import com.tauan.desafiostone.model.Item
-import com.tauan.desafiostone.model.Transaction
+import com.tauan.desafiostone.domain.model.Product
+import com.tauan.desafiostone.domain.model.Transaction
 import javax.inject.Singleton
 
 @Singleton
-@Database(entities = [Item::class, Transaction::class], version = 1)
+@Database(entities = [Product::class, Transaction::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cartDao(): CartDao
     abstract fun transactionDao(): TransactionDao

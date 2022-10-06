@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.tauan.desafiostone.model.Transaction
+import com.tauan.desafiostone.domain.model.Transaction
 import io.reactivex.Completable
 
 @Dao

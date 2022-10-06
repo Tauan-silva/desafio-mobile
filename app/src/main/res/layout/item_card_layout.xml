@@ -5,11 +5,8 @@
 
     <data>
         <variable
-            name="viewmodel"
-            type="com.tauan.desafiostone.presenter.viewmodel.CartViewModel" />
-        <variable
             name="item"
-            type="com.tauan.desafiostone.model.Item" />
+            type="com.tauan.desafiostone.domain.model.Product" />
 
     </data>
     <androidx.cardview.widget.CardView
@@ -148,8 +145,8 @@
                     app:layout_constraintEnd_toStartOf="@id/btn_add_more"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="@{viewmodel.itemQuantityLiveData.toString()}"
                     android:maxLines="1"
+                    android:text="@{String.valueOf(item.quantity)}"
                     android:maxLength="4"
                     android:textStyle="bold"
                     android:textColor="@color/purple_700"

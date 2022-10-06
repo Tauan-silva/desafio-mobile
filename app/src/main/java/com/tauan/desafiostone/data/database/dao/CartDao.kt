@@ -1,30 +1,25 @@
 package com.tauan.desafiostone.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
-import androidx.room.Update
-import com.tauan.desafiostone.model.Item
-import io.reactivex.Completable
+import com.tauan.desafiostone.domain.model.Product
 
 @Dao
 interface CartDao {
     @Query("SELECT * FROM Cart")
-    suspend fun getAllCarts(): List<Item>
+    suspend fun getAllCarts(): List<Product>
 
     @Query("SELECT * FROM cart WHERE title IN (:title)")
-    suspend fun selectCartById(title: String): Item
+    suspend fun selectCartById(title: String): Product
 
     @Insert(onConflict = REPLACE)
-    fun insert(item: Item): Completable
+    fun insert(product: Product)
 
     @Update
-    fun update(item: Item): Completable
+    fun update(product: Product)
 
     @Delete
-    fun delete(item: Item): Completable
+    fun delete(product: Product)
 
     @Query("SELECT SUM(quantity) FROM Cart")
     fun getQuantity(): Int
