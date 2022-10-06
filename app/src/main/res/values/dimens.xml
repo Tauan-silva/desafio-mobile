@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_image_error_background">#3DDC84</color>
+    <dimen name="shape_item_count_size">4dp</dimen>
 </resources>

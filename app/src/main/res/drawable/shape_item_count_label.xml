@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:tint="@color/teal_700"
+    android:shape="oval">
+
+    <corners android:radius="1000dp"/>
+
+    <padding android:top="@dimen/shape_item_count_size"
+        android:right="@dimen/shape_item_count_size"
+        android:left="@dimen/shape_item_count_size"
+        android:bottom="@dimen/shape_item_count_size"/>
+
+    <size android:width="20dp"
+        android:height="20dp"/>
+</shape>
