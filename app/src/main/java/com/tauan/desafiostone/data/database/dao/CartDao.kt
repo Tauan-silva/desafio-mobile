@@ -22,5 +22,5 @@ interface CartDao {
     fun delete(product: Product)
 
     @Query("SELECT SUM(quantity) FROM Cart")
-    fun getQuantity(): Int
+    suspend fun getQuantity(): Int
 }

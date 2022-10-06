@@ -1,22 +1,24 @@
 package com.tauan.desafiostone.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tauan.desafiostone.data.repository.CartRepositoryImpl
-import com.tauan.desafiostone.domain.model.Product
+import com.tauan.desafiostone.common.Resource
+import com.tauan.desafiostone.domain.use_case.cart.GetAllProductFromCartUseCase
+import com.tauan.desafiostone.presentation.ui.state.ProductListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repository: CartRepositoryImpl
+    private val getAllProductFromCartUseCase: GetAllProductFromCartUseCase
 ) : ViewModel() {
-    val addResponseLiveData = MutableLiveData(false)
-    val updateResponseLiveData = MutableLiveData(false)
-    val removeResponseLiveData = MutableLiveData(false)
-    val allItemsFromCart = MutableLiveData<List<Product>>()
+
+    private val _allItemsFromCart = MutableLiveData<ProductListState>()
+    private val allItemsFromCart: LiveData<ProductListState> = _allItemsFromCart
 
     init {
         viewModelScope.launch {
@@ -25,31 +27,24 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun addItemToCart(product: Product) {
-        viewModelScope.launch {
-            val response = repository.addToCart(product)
-//            addResponseLiveData.postValue(response)
-        }
-    }
-
-    fun updateItemToCart(product: Product) {
-        viewModelScope.launch {
-            val response = repository.updateToCart(product)
-            //updateResponseLiveData.postValue(response)
-        }
-    }
-
-    fun removeItemToCart(product: Product) {
-        viewModelScope.launch {
-            val response = repository.removeToCart(product)
-            //removeResponseLiveData.postValue(response)
-        }
-    }
-
     private fun getItemsFromCart() {
-//        repository.getItemsFromCart().collect {
-//            allItemsFromCart.postValue(it)
-//        }
+        getAllProductFromCartUseCase(Unit).onEach { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    _allItemsFromCart.value = ProductListState(isLoading = true)
+                }
+                is Resource.Error -> {
+                    _allItemsFromCart.value = ProductListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+                is Resource.Success -> {
+                    _allItemsFromCart.value = ProductListState(
+                        products = result.data ?: emptyList()
+                    )
+                }
+            }
+        }
     }
 
 }

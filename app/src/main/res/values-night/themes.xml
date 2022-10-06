@@ -13,4 +13,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.DesafioStone.NoActionBar" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="windowActionBar">true</item>
+    </style>
+
 </resources>

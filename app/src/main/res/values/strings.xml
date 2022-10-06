@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Desafio Stone</string>
+    <string name="label_total">Total</string>
+    <string name="label_checkout">checkout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
