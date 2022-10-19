@@ -7,5 +7,6 @@ interface CartRepository {
     suspend fun updateToCart(product: Product)
     suspend fun removeToCart(product: Product)
     suspend fun getItemsFromCart(): List<Product>
-    suspend fun getItemsCount(): Int
+    suspend fun getItemsCount(): Int?
+    suspend fun getTotalValueFromCart(): Int?
 }

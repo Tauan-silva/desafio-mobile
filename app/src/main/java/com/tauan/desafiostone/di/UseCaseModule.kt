@@ -8,6 +8,7 @@ import com.tauan.desafiostone.domain.use_case.UseCase
 import com.tauan.desafiostone.domain.use_case.cart.CrudUseCase
 import com.tauan.desafiostone.domain.use_case.cart.GetAllProductFromCartUseCase
 import com.tauan.desafiostone.domain.use_case.cart.GetItemsCountUseCase
+import com.tauan.desafiostone.domain.use_case.cart.GetTotalValueFromCartUseCase
 import com.tauan.desafiostone.domain.use_case.products.GetProductsUseCase
 import dagger.Module
 import dagger.Provides
@@ -21,8 +22,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetProductsUseCase(repository: ProductRepository): UseCase<Unit, Resource<List<Product>>> {
-        return GetProductsUseCase(repository)
+    fun provideGetProductsUseCase(
+        repository: ProductRepository,
+        getAllProductFromCartUseCase: GetAllProductFromCartUseCase
+    ): UseCase<Unit, Resource<List<Product>>> {
+        return GetProductsUseCase(repository, getAllProductFromCartUseCase)
     }
 
     @Provides
@@ -39,8 +43,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetItemsCountUseCase(repository: CartRepository): UseCase<Unit, Int> {
+    fun provideGetItemsCountUseCase(repository: CartRepository): UseCase<Unit, Int?> {
         return GetItemsCountUseCase(repository)
     }
 
+    @Provides
+    @Singleton
+    fun provideGetTotalValueFromCartUseCase(repository: CartRepository): UseCase<Unit, Int?> {
+        return GetTotalValueFromCartUseCase(repository)
+    }
 }

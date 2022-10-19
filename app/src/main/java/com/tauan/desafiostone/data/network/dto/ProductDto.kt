@@ -12,5 +12,5 @@ data class ProductDto(
 )
 
 fun ProductDto.toProduct(): Product {
-    return Product(title, 1, price, seller, thumbnailHd)
+    return Product(title, 0, price, seller, thumbnailHd)
 }

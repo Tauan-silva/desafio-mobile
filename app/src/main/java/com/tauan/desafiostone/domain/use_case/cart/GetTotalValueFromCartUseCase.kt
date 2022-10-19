@@ -6,12 +6,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetItemsCountUseCase @Inject constructor(
-    private val repository: CartRepository
-): UseCase<Unit, Int?> {
+class GetTotalValueFromCartUseCase @Inject constructor(
+    private val cartRepository: CartRepository
+) : UseCase<Unit, Int?> {
 
     override fun invoke(params: Unit): Flow<Int?> = flow {
-        val count = repository.getItemsCount() ?: 0
-        emit(count)
+        val totalValue = cartRepository.getTotalValueFromCart() ?: 0
+        emit(totalValue)
     }
+
 }

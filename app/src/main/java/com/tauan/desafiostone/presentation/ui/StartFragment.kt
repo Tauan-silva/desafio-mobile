@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -51,17 +53,19 @@ class StartFragment : Fragment(), AdapterClick {
 
     private fun getItemList() {
         lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.listState.observe(viewLifecycleOwner) { state ->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.listState.observe(viewLifecycleOwner) { state ->
 
-                if (state.error.isNotBlank()) {
-                    binding.imgConnectionError.visibility = View.VISIBLE
-                    Snackbar.make(binding.root, state.error, Snackbar.LENGTH_LONG).show()
-                }
-                if (!state.isLoading) {
-                    adapterList.products = state.products
-                    binding.pgbar.visibility = View.GONE
-                    setRecyclerView()
-                    observeCartCount()
+                    if (state.error.isNotBlank()) {
+                        binding.imgConnectionError.visibility = View.VISIBLE
+                        Snackbar.make(binding.root, state.error, Snackbar.LENGTH_LONG).show()
+                    }
+                    if (!state.isLoading) {
+                        adapterList.products = state.products as MutableList<Product>
+                        binding.pgbar.visibility = View.GONE
+                        setRecyclerView()
+                        observeCartCount()
+                    }
                 }
             }
         }
@@ -102,9 +106,8 @@ class StartFragment : Fragment(), AdapterClick {
     }
 
     override fun add(product: Product) {
-        val isAdded = viewModel.productState.value?.isAdded ?: false
         lifecycleScope.launch(Dispatchers.IO) {
-            if (!isAdded) {
+            if (product.quantity == 1) {
                 viewModel.addProductToCart(product)
             } else {
                 viewModel.updateProductToCart(product)
